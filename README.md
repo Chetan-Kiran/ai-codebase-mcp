@@ -44,6 +44,7 @@ git/
 
 files/
  ├── file_resource.py
+ ```
 
  ```
  ai-codebase-mcp/
