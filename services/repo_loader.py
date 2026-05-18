@@ -1,27 +1,41 @@
 import os
-import tempfile
 from git import Repo
 
-def load_repo(repo_input: str):
-    """
-    Accepts:
-    - local folder path
-    - github repo url
+BASE_DIR = os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))
+)
 
-    Returns:
-    local usable path
-    """
+TEMP_DIR = os.path.join(
+    BASE_DIR,
+    "temp_repos"
+)
 
-    # LOCAL PATH
-    if os.path.exists(repo_input):
+os.makedirs(TEMP_DIR,exist_ok=True)
+
+def load_repo(repo_input:str):
+
+    if os.path.isdir(repo_input):
         return repo_input
 
-    # GITHUB URL
-    if repo_input.startswith("https://github.com"):
-        temp_dir = tempfile.mkdtemp()
+    if repo_input.startswith("http"):
 
-        Repo.clone_from(repo_input, temp_dir)
+        repo_name=repo_input.split("/")[-1]
+        repo_name=repo_name.replace(".git","")
 
-        return temp_dir
+        clone_path=os.path.join(
+            TEMP_DIR,
+            repo_name
+        )
 
-    raise Exception("Invalid repository input")
+        if not os.path.exists(clone_path):
+
+            Repo.clone_from(
+                repo_input,
+                clone_path
+            )
+
+        return clone_path
+
+    raise Exception(
+        "Use local folder path or GitHub URL."
+    )

@@ -1,9 +1,9 @@
 from services.repo_loader import load_repo
 from services.parser_service import get_all_files
 
-def repo_structure(repo_input:str):
+def structure_resource(repo):
 
-    path = load_repo(repo_input)
+    path = load_repo(repo)
 
     files = get_all_files(path)
 

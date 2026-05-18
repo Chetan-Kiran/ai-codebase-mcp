@@ -106,25 +106,16 @@ ai-codebase-mcp/
 │
 │
 ├── services/
-│   │
+|   |
 │   ├── repo_loader.py
-│   │
 │   ├── llm_service.py
-│   │
 │   ├── parser_service.py
-│   │
-│   ├── git_service.py
-│   │
+│   |── git_service.py
 │   ├── embedding_service.py
-│   │
 │   ├── tree_sitter_service.py
-│   │
 │   ├── file_service.py
-│   │
 │   ├── dependency_service.py
-│   │
 │   └── cache_service.py
-│
 │
 ├── models/
 │   │
@@ -136,7 +127,7 @@ ai-codebase-mcp/
 └── temp_repos/
  ```
 
-##RESOURCES (Claude computes)
+## RESOURCES (Claude computes)
 
 | Feature      | MCP Type | Compute |
 | :----------- | :------- | :------ |
@@ -145,9 +136,9 @@ ai-codebase-mcp/
 | Dependencies | Resource | Claude  |
 | Commits      | Resource | Claude  |
 | File Reader  | Resource | Claude  |
+| Search       | Resource | Claude  |
 
-
-##TOOLS (Groq computes)
+## TOOLS (Groq computes)
 
 
 | Feature      | MCP Type | Compute |
@@ -156,12 +147,15 @@ ai-codebase-mcp/
 | Architecture | Tool     | Groq    |
 | Explain      | Tool     | Groq    |
 | Smells       | Tool     | Groq    |
+| Dead_code    | Tool     | Groq    |
 | Refactor     | Tool     | Groq    |
 | Risks        | Tool     | Groq    |
 | Docs         | Tool     | Groq    |
+| Semantic_sear| Tool     | Groq    |
+| Qa           | Tool     | Groq    |
 
 
-##PROMPTS
+## PROMPTS
 
 
 | Prompt     | Purpose         |

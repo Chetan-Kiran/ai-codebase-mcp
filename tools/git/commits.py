@@ -1,15 +1,25 @@
 from git import Repo
+from services.repo_loader import load_repo
 
-def recent_commits(repo_path: str):
+def recent_commits(repo_input):
 
-    repo = Repo(repo_path)
+    path = load_repo(repo_input)
 
-    commits = []
+    repo = Repo(path)
 
-    for commit in repo.iter_commits(max_count=10):
-        commits.append({
-            "message": commit.message,
-            "author": str(commit.author),
-        })
+    output = []
 
-    return commits
+    for c in repo.iter_commits(max_count=10):
+
+        output.append(f"""
+Commit : {c.hexsha[:8]}
+Author : {c.author.name}
+Email  : {c.author.email}
+Date   : {c.committed_datetime}
+
+Message:
+{c.message.strip()}
+----------------------------------------
+""")
+
+    return "\n".join(output)
