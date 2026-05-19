@@ -1,6 +1,7 @@
 from mcp.server.fastmcp import FastMCP
 
 from services.repo_loader import load_repo
+from services.normalize_repo import normalize_repo
 
 from tools.repo.structure import repo_structure
 from tools.repo.summarize import repo_summary
@@ -99,11 +100,13 @@ def readme(repo:str):
 
     return generate_readme(path)
 
+
 @mcp.resource("repo://structure/{repo}")
 def structure_resource_mcp(repo:str):
 
+    repo = normalize_repo(repo)
     path = load_repo(repo)
-
+    print("final path:", path)
     return structure_resource(path)
 
 @mcp.resource(
@@ -111,6 +114,7 @@ def structure_resource_mcp(repo:str):
 )
 def dependencies_resource_mcp(repo:str):
 
+    repo = normalize_repo(repo)
     path = load_repo(repo)
 
     return dependency_resource(path)
@@ -119,6 +123,9 @@ def dependencies_resource_mcp(repo:str):
     "repo://file/{repo}/{file_path}"
 )
 def file_resource_mcp(repo:str,file_path:str):
+
+    repo = normalize_repo(repo)
+    file_path = normalize_repo(file_path)
 
     path = load_repo(repo)
 
@@ -132,6 +139,9 @@ def file_resource_mcp(repo:str,file_path:str):
 )
 def search_resource_mcp(repo:str,query:str):
 
+    repo = normalize_repo(repo)
+    query = normalize_repo(query)
+
     path = load_repo(repo)
 
     return search_resource(
@@ -144,6 +154,7 @@ def search_resource_mcp(repo:str,query:str):
 )
 def commits_resource_mcp(repo:str):
 
+    repo = normalize_repo(repo)
     path = load_repo(repo)
 
     return commits_resource(path)
@@ -164,6 +175,7 @@ def explain_template():
 def review():
 
     return review_prompt("{code}")
+
 
 if __name__=="__main__":
     mcp.run()

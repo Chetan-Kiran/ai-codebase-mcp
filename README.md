@@ -174,3 +174,14 @@ git push origin main
 git log --pretty=format:"%an <%ae>"
 
 ```
+
+```
+.venv\Scripts\activate.bat
+
+python -m ensurepip --default-pip
+
+python -m pip install "mcp[cli]"
+
+mcp dev main.py
+
+```
