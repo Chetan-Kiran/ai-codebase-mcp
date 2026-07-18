@@ -2,12 +2,20 @@ from mcp.server.fastmcp import FastMCP
 
 from services.repo_loader import load_repo
 from services.normalize_repo import normalize_repo
+from services.db_service import execute_db, query_db
 
 from tools.repo.structure import repo_structure
 from tools.repo.summarize import repo_summary
 from tools.code.explain import explain_code
 from tools.git.commits import recent_commits
 from tools.docs.readme import generate_readme
+from tools.repo.tech_stack import detect_stack
+from tools.repo.dependency_analyzer import analyze_dependencies
+from tools.code.bug_scan import scan_bugs
+from tools.repo.repo_review import review_repo
+from tools.ai.semantic_search import semantic_search
+from tools.code.explain_file import explain_file
+from tools.code.refactor import rewrite_code, remove_dead_code
 
 from resources.repo.structure_resource import structure_resource
 from resources.repo.dependency_resource import dependency_resource
@@ -24,6 +32,90 @@ mcp=FastMCP("AI-Codebase-MCP")
 ####################
 # TOOLS
 ####################
+
+@mcp.tool()
+def explain_file(
+    repo:str,
+    file_path:str
+):
+
+    path=load_repo(repo)
+
+    return explain_file(
+        path,
+        file_path
+    )
+
+@mcp.tool()
+def code_search(
+    repo:str,
+    query:str
+):
+
+    """
+    Search across repository code.
+    """
+
+    path=load_repo(repo)
+
+    return semantic_search(
+        path,
+        query
+    )
+
+@mcp.tool()
+def repo_review(repo:str):
+
+    """
+    AI repository review.
+    """
+
+    path=load_repo(repo)
+
+    return review_repo(path)
+
+@mcp.tool()
+def bug_scan(repo:str):
+
+    """
+    Scan repository for common issues.
+    """
+
+    path=load_repo(repo)
+
+    return scan_bugs(path)
+
+@mcp.tool()
+def dependency_scan(repo:str):
+
+    """
+    Analyze dependencies.
+
+    Input:
+    - local folder path
+    - GitHub URL
+    """
+
+    path=load_repo(repo)
+
+    return analyze_dependencies(path)
+
+@mcp.tool()
+def tech_stack(repo:str):
+
+    """
+    Detect project tech stack.
+
+    Input:
+    - local folder path
+    - GitHub URL
+    """
+
+    path=load_repo(repo)
+
+    return detect_stack(path)
+
+
 
 @mcp.tool()
 def structure(repo:str):
@@ -99,6 +191,34 @@ def readme(repo:str):
     path=load_repo(repo)
 
     return generate_readme(path)
+
+
+@mcp.tool()
+def rewrite(code: str, instructions: str = "Refactor this code."):
+    """
+    Rewrite or refactor a code snippet based on instructions.
+    """
+    return rewrite_code(code, instructions)
+
+@mcp.tool()
+def cleanup_dead_code(code: str):
+    """
+    Remove dead code from a snippet.
+    """
+    return remove_dead_code(code)
+
+@mcp.tool()
+def run_db_query(query: str):
+    """
+    Execute a query on the project database and return results.
+    """
+    try:
+        if query.strip().lower().startswith("select"):
+            return str(query_db(query))
+        else:
+            return execute_db(query)
+    except Exception as e:
+        return f"Database error: {str(e)}"
 
 
 @mcp.resource("repo://structure/{repo}")

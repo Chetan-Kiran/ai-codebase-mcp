@@ -10,3 +10,5 @@ dependencies = [
     "mcp>=1.27.1",
     "python-dotenv>=1.2.2",
 ]
+
+ai-codebase-mcp = "main:run"
