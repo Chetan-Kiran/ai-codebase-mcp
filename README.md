@@ -86,3 +86,22 @@ Prompt templates help LLM models structure queries:
     ```bash
     mcp dev main.py
     ```
+
+# Current project holds
+
+* ast_query – query the codebase's AST
+* bug_scan – scan for bugs
+* change_impact – assess impact of a change
+* cleanup_dead_code – find/remove dead code
+* code_search – search code
+* commits – look at commit history
+* dependency_scan – scan dependencies
+* explain / explain_file – explain code or a specific file
+* readme – generate/view README
+* repo_review – review a repo
+* rewrite – rewrite code
+* run_db_query – run a database query
+* safe_refactor – refactor safely
+* structure – show repo structure
+* summarize – summarize code
+* tech_stack – identify tech stack
