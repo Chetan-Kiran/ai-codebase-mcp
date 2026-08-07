@@ -1,39 +1,24 @@
-import os
+from services.indexer_service import search_repo
 
-def semantic_search(repo_path,query):
-
-    results=[]
-
-    query=query.lower()
-
-    for root,dirs,files in os.walk(repo_path):
-
-        for file in files:
-
-            path=os.path.join(root,file)
-
-            try:
-
-                with open(
-                    path,
-                    encoding="utf-8",
-                    errors="ignore"
-                ) as f:
-
-                    lines=f.readlines()
-
-                for i,line in enumerate(lines):
-
-                    if query in line.lower():
-
-                        results.append(
-                            f"{file}:{i+1} -> {line.strip()}"
-                        )
-
-            except:
-                pass
+def semantic_search(repo_path, query, top_k=10):
+    """
+    Semantic vector search over the codebase.
+    Replaces the old case-insensitive string match with dense vector retrieval
+    powered by sentence-transformers + FAISS.
+    """
+    results = search_repo(repo_path, query, top_k=top_k)
 
     if not results:
-        return "No matches found."
+        return "No semantically relevant matches found."
 
-    return "\n".join(results[:50])
+    output_lines = [f"Top {len(results)} semantic matches for: \"{query}\"\n"]
+
+    for i, r in enumerate(results, 1):
+        output_lines.append(
+            f"[{i}] {r['file_path']}  (lines {r['start_line']}-{r['end_line']})  score={r['score']:.4f}"
+        )
+        # Show a snippet (first 5 lines of the chunk)
+        snippet = "\n".join(r["content"].splitlines()[:5])
+        output_lines.append(f"  {snippet}\n")
+
+    return "\n".join(output_lines)
