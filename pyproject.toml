@@ -1,14 +1,20 @@
 [project]
 name = "ai-codebase-mcp"
 version = "0.1.0"
-description = "Add your description here"
+description = "AI-powered MCP server for codebase analysis"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.10"
 dependencies = [
+    "faiss-cpu>=1.14.3",
     "gitpython>=3.1.50",
-    "groq>=1.2.0",
-    "mcp>=1.27.1",
-    "python-dotenv>=1.2.2",
+    "groq>=1.1.0",
+    "mcp[cli]>=1.0.0",
+    "numpy>=1.26.0",
+    "python-dotenv>=1.0.0",
+    "sentence-transformers>=2.2.0",
 ]
 
-ai-codebase-mcp = "main:run"
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
