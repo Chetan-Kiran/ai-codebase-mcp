@@ -113,3 +113,41 @@ Validate project features and indexers:
 ```bash
 uv run pytest tests/test_features.py -v
 ```
+
+## 🚀 Quick Setup with Claude Desktop
+
+### Step 1: Open Claude Desktop Settings
+1. Launch **Claude Desktop**.
+2. Click on the **Claude** menu in the top-left corner (or the **Gear icon**) and select **Settings**.
+3. Navigate to the **Developer** tab.
+4. Click **Edit Config**. This will open your `claude_desktop_config.json` file in your default text editor.
+
+---
+
+### Step 2: Add MCP Server Configuration
+Add the following configuration inside the `"mcpServers"` object in your `claude_desktop_config.json` file:
+
+```json
+{
+  "mcpServers": {
+    "ai-codebase-mcp": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/Chetan-Kiran/ai-codebase-mcp.git",
+        "ai-codebase-mcp"
+      ],
+      "env": {
+        "GROQ_API_KEY": "YOUR_GROQ_API_KEY"
+      }
+    }
+  }
+}
+```
+
+> **Note:** Be sure to replace `"YOUR_GROQ_API_KEY"` with your actual Groq API key.
+
+---
+
+### Step 3: Restart Claude Desktop
+Completely close and re-open **Claude Desktop**. `uvx` will automatically fetch the latest release from GitHub, install the necessary dependencies, and launch the MCP server.
